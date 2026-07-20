@@ -1,17 +1,10 @@
 "use client";
-import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { addDays } from "date-fns";
-import { type DateRange } from "react-day-picker";
-
-const defaultSelected = {
-  from: undefined,
-  to: undefined,
-};
+import { useBookingStore } from "@/store/bookingStore";
 
 function BookingCalendar() {
-  const [range, setRange] = useState<DateRange | undefined>(defaultSelected);
-  console.log(range);
+  const { range, setRange } = useBookingStore((state) => state);
+  console.log("range", range);
   return (
     <>
       <Calendar
