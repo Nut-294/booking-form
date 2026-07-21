@@ -4,7 +4,7 @@ import { useBookingStore } from "@/store/bookingStore";
 
 function BookingCalendar() {
   const { range, setRange } = useBookingStore((state) => state);
-  console.log("range", range);
+  // console.log("range", range);
   return (
     <>
       <Calendar
