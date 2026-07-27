@@ -1,21 +1,60 @@
 "use client";
-import z from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Input } from "../input";
-import { Field, FieldLabel, FieldSet } from "@/components/ui/field";
+import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "../card";
-import { Button } from "../button";;
+import { Button } from "../button";
+import { Calendar } from "../calendar";
 
-const formSchema = z.object({
-  guests: z.coerce.number().min(1, { message: "กรุณาเลือกจำนวนคน" }),
-  rooms: z.coerce.number().min(1, { message: "กรุณาเลือกจำนวนห้องพัก" }),
-});
+const formSchema = z
+  .object({
+    guests: z.coerce.number().min(1, {
+      message: "กรุณาเลือกจำนวนคน",
+    }),
+
+    rooms: z.coerce.number().min(1, {
+      message: "กรุณาเลือกจำนวนห้องพัก",
+    }),
+
+    checkIn: z.date().optional(),
+
+    checkOut: z.date().optional(),
+  })
+
+  // checkIn ต้องมีค่า
+  .refine((data) => !!data.checkIn, {
+    message: "กรุณาเลือกวันเข้าพัก",
+    path: ["checkIn"],
+  })
+
+  // checkOut ต้องมีค่า
+  .refine((data) => !!data.checkOut, {
+    message: "กรุณาเลือกวันออก",
+    path: ["checkOut"],
+  })
+
+  // checkOut ต้องมากกว่า checkIn
+  .refine(
+    (data) => {
+      if (!data.checkIn || !data.checkOut) {
+        return true;
+      }
+
+      return data.checkOut > data.checkIn;
+    },
+    {
+      message: "วันออกต้องมากกว่าวันเข้า",
+      path: ["checkOut"],
+    },
+  );
 
 export default function Form() {
   const {
     register,
     handleSubmit,
+    control,
     watch,
     formState: { errors },
   } = useForm({
@@ -23,11 +62,17 @@ export default function Form() {
     defaultValues: {
       guests: 1,
       rooms: 1,
+      checkIn: undefined,
+      checkOut: undefined,
     },
   });
+
+  const checkIn = watch("checkIn");
+
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data.guests,data.rooms);
+    console.log(data);
   }
+
   return (
     <Card>
       <CardHeader>ค้นหาห้องพัก</CardHeader>
@@ -35,8 +80,47 @@ export default function Form() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldSet>
             <div className="grid grid-cols-4 gap-x-10">
-              {/* CheckIn */}
-              {/* CheckOut */}
+              {/* Check In */}
+              <Field>
+                <FieldLabel>Check In</FieldLabel>
+                <Controller
+                  control={control}
+                  name="checkIn"
+                  render={({ field }) => (
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                    />
+                  )}
+                />
+                <FieldError errors={[errors.checkIn]} />
+              </Field>
+
+              {/* Check Out */}
+              <Field>
+                <FieldLabel>Check Out</FieldLabel>
+                <Controller
+                  control={control}
+                  name="checkOut"
+                  render={({ field }) => (
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => {
+                        if (!checkIn) {
+                          return false;
+                        }
+                        return date <= checkIn;
+                      }}
+                    />
+                  )}
+                />
+                <FieldError errors={[errors.checkOut]} />
+              </Field>
+
+              {/* Guests */}
               <Field>
                 <FieldLabel htmlFor="guests">Guests</FieldLabel>
                 <Input
@@ -46,7 +130,10 @@ export default function Form() {
                   placeholder="Guest"
                   {...register("guests")}
                 />
+                <FieldError errors={[errors.guests]} />
               </Field>
+
+              {/* Rooms */}
               <Field>
                 <FieldLabel htmlFor="rooms">Rooms</FieldLabel>
                 <Input
@@ -56,9 +143,11 @@ export default function Form() {
                   placeholder="Room"
                   {...register("rooms")}
                 />
+                <FieldError errors={[errors.rooms]} />
               </Field>
             </div>
-            <Field orientation={"horizontal"}>
+
+            <Field orientation="horizontal">
               <Button type="submit">ค้นหา</Button>
             </Field>
           </FieldSet>
