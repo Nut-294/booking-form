@@ -7,6 +7,8 @@ import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "../card";
 import { Button } from "../button";
 import { Calendar } from "../calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "../popover";
+import { format } from "date-fns";
 
 const formSchema = z
   .object({
@@ -87,11 +89,29 @@ export default function Form() {
                   control={control}
                   name="checkIn"
                   render={({ field }) => (
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                    />
+                    <Popover>
+                      <PopoverTrigger
+                        render={
+                          <Button variant="outline" className="w-full">
+                            {field.value
+                              ? format(field.value, "dd / MM / yyyy")
+                              : "กรุณาเลือกวันเข้าพัก"}
+                          </Button>
+                        }
+                      />
+
+                      <PopoverContent
+                        align="center"
+                        sideOffset={10}
+                        className="w-auto"
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                        />
+                      </PopoverContent>
+                    </Popover>
                   )}
                 />
                 <FieldError errors={[errors.checkIn]} />
@@ -104,17 +124,35 @@ export default function Form() {
                   control={control}
                   name="checkOut"
                   render={({ field }) => (
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) => {
-                        if (!checkIn) {
-                          return false;
+                    <Popover>
+                      <PopoverTrigger
+                        render={
+                          <Button variant="outline" className="w-full">
+                            {field.value
+                              ? format(field.value, "dd / MM / yyyy")
+                              : "กรุณาเลือกวันออก"}
+                          </Button>
                         }
-                        return date <= checkIn;
-                      }}
-                    />
+                      />
+
+                      <PopoverContent
+                        align="center"
+                        sideOffset={10}
+                        className="w-auto"
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => {
+                            if (!checkIn) {
+                              return false;
+                            }
+                            return date <= checkIn;
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
                   )}
                 />
                 <FieldError errors={[errors.checkOut]} />
