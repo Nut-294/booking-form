@@ -1,12 +1,12 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../input";
-import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
+import { Field, FieldSet } from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "../card";
 import { Button } from "../button";
 import { bookingSchema, BookingType } from "@/utils/types";
 import DatePicker from "./DatePicker";
 import { useForm } from "react-hook-form";
+import FormInput from "./FormInput";
 
 export default function Form() {
   const {
@@ -15,7 +15,7 @@ export default function Form() {
     control,
     watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<BookingType>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       guests: 1,
@@ -61,34 +61,22 @@ export default function Form() {
               />
 
               {/* Guests */}
-              <Field>
-                <FieldLabel htmlFor="guests">Guests</FieldLabel>
-                <Input
-                  id="guests"
-                  type="number"
-                  min={1}
-                  placeholder="Guest"
-                  {...register("guests", {
-                    valueAsNumber: true,
-                  })}
-                />
-                <FieldError errors={[errors.guests]} />
-              </Field>
+              <FormInput
+                label="Guests"
+                name="guests"
+                placeholder="Guests"
+                errors={errors.guests}
+                register={register}
+              />
 
               {/* Rooms */}
-              <Field>
-                <FieldLabel htmlFor="rooms">Rooms</FieldLabel>
-                <Input
-                  id="rooms"
-                  type="number"
-                  min={1}
-                  placeholder="Room"
-                    {...register("rooms", {
-                    valueAsNumber: true,
-                  })}
-                />
-                <FieldError errors={[errors.rooms]} />
-              </Field>
+              <FormInput
+                label="Rooms"
+                name="rooms"
+                placeholder="Rooms"
+                errors={errors.rooms}
+                register={register}
+              />
             </div>
 
             <Field orientation="horizontal">
