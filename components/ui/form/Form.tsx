@@ -1,14 +1,12 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
 import { Input } from "../input";
 import { Field, FieldError, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "../card";
 import { Button } from "../button";
-import { Calendar } from "../calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "../popover";
-import { format } from "date-fns";
 import { bookingSchema, BookingType } from "@/utils/types";
+import DatePicker from "./DatePicker";
+import { useForm } from "react-hook-form";
 
 export default function Form() {
   const {
@@ -41,80 +39,26 @@ export default function Form() {
           <FieldSet>
             <div className="grid grid-cols-4 gap-x-10">
               {/* Check In */}
-              <Field>
-                <FieldLabel>Check In</FieldLabel>
-                <Controller
-                  control={control}
-                  name="checkIn"
-                  render={({ field }) => (
-                    <Popover>
-                      <PopoverTrigger
-                        render={
-                          <Button variant="outline" className="w-full">
-                            {field.value
-                              ? format(field.value, "dd / MM / yyyy")
-                              : "กรุณาเลือกวันเข้าพัก"}
-                          </Button>
-                        }
-                      />
-
-                      <PopoverContent
-                        align="center"
-                        sideOffset={10}
-                        className="w-auto"
-                      >
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  )}
-                />
-                <FieldError errors={[errors.checkIn]} />
-              </Field>
+              <DatePicker
+                control={control}
+                errors={errors.checkIn}
+                name="checkIn"
+                label="Check In"
+                placeholder="กรุณาเลือกวันเข้าพัก"
+              />
 
               {/* Check Out */}
-              <Field>
-                <FieldLabel>Check Out</FieldLabel>
-                <Controller
-                  control={control}
-                  name="checkOut"
-                  render={({ field }) => (
-                    <Popover>
-                      <PopoverTrigger
-                        render={
-                          <Button variant="outline" className="w-full">
-                            {field.value
-                              ? format(field.value, "dd / MM / yyyy")
-                              : "กรุณาเลือกวันออก"}
-                          </Button>
-                        }
-                      />
-
-                      <PopoverContent
-                        align="center"
-                        sideOffset={10}
-                        className="w-auto"
-                      >
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) => {
-                            if (!checkIn) {
-                              return false;
-                            }
-                            return date <= checkIn;
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  )}
-                />
-                <FieldError errors={[errors.checkOut]} />
-              </Field>
+              <DatePicker
+                control={control}
+                errors={errors.checkOut}
+                name="checkOut"
+                label="Check Out"
+                placeholder="กรุณาเลือกวันออก"
+                disabled={(date) => {
+                  if (!checkIn) return false;
+                  return date <= checkIn;
+                }}
+              />
 
               {/* Guests */}
               <Field>
@@ -124,7 +68,9 @@ export default function Form() {
                   type="number"
                   min={1}
                   placeholder="Guest"
-                  {...register("guests")}
+                  {...register("guests", {
+                    valueAsNumber: true,
+                  })}
                 />
                 <FieldError errors={[errors.guests]} />
               </Field>
@@ -137,7 +83,9 @@ export default function Form() {
                   type="number"
                   min={1}
                   placeholder="Room"
-                  {...register("rooms")}
+                    {...register("rooms", {
+                    valueAsNumber: true,
+                  })}
                 />
                 <FieldError errors={[errors.rooms]} />
               </Field>

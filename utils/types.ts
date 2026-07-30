@@ -2,11 +2,11 @@ import { z } from "zod";
 
 export const bookingSchema = z
   .object({
-    guests: z.coerce.number().min(1, {
+    guests: z.number().min(1, {
       message: "กรุณาเลือกจำนวนคน",
     }),
 
-    rooms: z.coerce.number().min(1, {
+    rooms: z.number().min(1, {
       message: "กรุณาเลือกจำนวนห้องพัก",
     }),
 
