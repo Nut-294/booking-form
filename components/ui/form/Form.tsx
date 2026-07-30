@@ -1,5 +1,4 @@
 "use client";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "../input";
@@ -9,48 +8,7 @@ import { Button } from "../button";
 import { Calendar } from "../calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
 import { format } from "date-fns";
-
-const formSchema = z
-  .object({
-    guests: z.coerce.number().min(1, {
-      message: "กรุณาเลือกจำนวนคน",
-    }),
-
-    rooms: z.coerce.number().min(1, {
-      message: "กรุณาเลือกจำนวนห้องพัก",
-    }),
-
-    checkIn: z.date().optional(),
-
-    checkOut: z.date().optional(),
-  })
-
-  // checkIn ต้องมีค่า
-  .refine((data) => !!data.checkIn, {
-    message: "กรุณาเลือกวันเข้าพัก",
-    path: ["checkIn"],
-  })
-
-  // checkOut ต้องมีค่า
-  .refine((data) => !!data.checkOut, {
-    message: "กรุณาเลือกวันออก",
-    path: ["checkOut"],
-  })
-
-  // checkOut ต้องมากกว่า checkIn
-  .refine(
-    (data) => {
-      if (!data.checkIn || !data.checkOut) {
-        return true;
-      }
-
-      return data.checkOut > data.checkIn;
-    },
-    {
-      message: "วันออกต้องมากกว่าวันเข้า",
-      path: ["checkOut"],
-    },
-  );
+import { bookingSchema, BookingType } from "@/utils/types";
 
 export default function Form() {
   const {
@@ -60,7 +18,7 @@ export default function Form() {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(bookingSchema),
     defaultValues: {
       guests: 1,
       rooms: 1,
@@ -71,8 +29,8 @@ export default function Form() {
 
   const checkIn = watch("checkIn");
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+  function onSubmit(values: BookingType) {
+    console.log(values);
   }
 
   return (
