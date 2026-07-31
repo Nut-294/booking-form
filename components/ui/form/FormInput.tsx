@@ -1,14 +1,18 @@
 "use client";
 import { Input } from "../input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import type { FieldError as fieldError, FieldPath, UseFormRegister } from "react-hook-form";
+import type {
+  FieldError as fieldError,
+  FieldPath,
+  UseFormRegister,
+} from "react-hook-form";
 import { BookingType } from "@/utils/types";
 
 type FormInputProp = {
   label: string;
   name: FieldPath<BookingType>;
   placeholder: string;
-  errors?: fieldError
+  errors?: fieldError;
   register: UseFormRegister<BookingType>;
 };
 

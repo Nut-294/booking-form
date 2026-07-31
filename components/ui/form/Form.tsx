@@ -1,12 +1,12 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Field, FieldSet } from "@/components/ui/field";
+import { FieldSet } from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "../card";
-import { Button } from "../button";
 import { bookingSchema, BookingType } from "@/utils/types";
 import DatePicker from "./DatePicker";
 import { useForm } from "react-hook-form";
 import FormInput from "./FormInput";
+import { Button } from "../button";
 
 export default function Form() {
   const {
@@ -37,7 +37,7 @@ export default function Form() {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldSet>
-            <div className="grid grid-cols-4 gap-x-10">
+            <div className="grid grid-cols-5 gap-x-10">
               {/* Check In */}
               <DatePicker
                 control={control}
@@ -77,11 +77,8 @@ export default function Form() {
                 errors={errors.rooms}
                 register={register}
               />
+              <Button type="submit" className="mt-6.5">ค้นหา</Button>
             </div>
-
-            <Field orientation="horizontal">
-              <Button type="submit">ค้นหา</Button>
-            </Field>
           </FieldSet>
         </form>
       </CardContent>
