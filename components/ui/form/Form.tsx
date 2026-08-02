@@ -7,8 +7,11 @@ import DatePicker from "./DatePicker";
 import { useForm } from "react-hook-form";
 import FormInput from "./FormInput";
 import { Button } from "../button";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 export default function Form() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -18,17 +21,24 @@ export default function Form() {
   } = useForm<BookingType>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
-      guests: 1,
-      rooms: 1,
       checkIn: undefined,
       checkOut: undefined,
+      guests: 1,
+      rooms: 1,
     },
   });
 
   const checkIn = watch("checkIn");
 
   function onSubmit(values: BookingType) {
-    console.log(values);
+    const params = new URLSearchParams({
+      checkIn: format(values.checkIn, "yyyy-MM-dd"),
+      checkOut: format(values.checkOut, "yyyy-MM-dd"),
+      guests: String(values.guests),
+      rooms: String(values.rooms),
+    });
+
+    router.push(`/search?${params}`);
   }
 
   return (
@@ -77,7 +87,9 @@ export default function Form() {
                 errors={errors.rooms}
                 register={register}
               />
-              <Button type="submit" className="mt-6.5">ค้นหา</Button>
+              <Button type="submit" className="mt-6.5">
+                ค้นหา
+              </Button>
             </div>
           </FieldSet>
         </form>
