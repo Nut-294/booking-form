@@ -10,7 +10,11 @@ import { Button } from "../button";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 
-export default function Form() {
+type FormProps = {
+  defaultValues?: Partial<BookingType>;
+};
+
+export default function Form({ defaultValues }: FormProps) {
   const router = useRouter();
   const {
     register,
@@ -25,6 +29,7 @@ export default function Form() {
       checkOut: undefined,
       guests: 1,
       rooms: 1,
+      ... defaultValues
     },
   });
 

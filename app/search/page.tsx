@@ -1,7 +1,7 @@
 import RoomsList from "@/components/ui/search/RoomsList";
 import SearchForm from "@/components/ui/search/SearchForm";
 
-type searchParamsProps = {
+type searchPageProps = {
   searchParams: Promise<{
     checkIn: string;
     checkOut: string;
@@ -10,7 +10,7 @@ type searchParamsProps = {
   }>;
 };
 
-async function SearchPage({ searchParams }: searchParamsProps) {
+async function SearchPage({ searchParams }: searchPageProps) {
   const params = await searchParams;
   return (
     <>
