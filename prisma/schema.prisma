@@ -12,12 +12,19 @@ datasource db {
   provider = "postgresql"
 }
 
-model Booking {
-  id        String   @id @default(cuid())
-  checkIn   DateTime
-  checkOut  DateTime
-  guests    Int
-  rooms     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Room {
+  id         String @id @default(cuid())
+  roomNumber String
+
+  roomTypeId String
+  roomType   RoomType @relation(fields: [roomTypeId], references: [id])
+}
+
+model RoomType {
+  id       String @id @default(cuid())
+  name     String
+  price    Int
+  capacity Int
+
+  rooms Room[]
 }
