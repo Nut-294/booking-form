@@ -19,7 +19,8 @@ enum RoomStatus {
 }
 
 model RoomType {
-  id          String @id @default(cuid())
+  id String @id @default(cuid())
+
   name        String @unique
   price       Int
   capacity    Int
@@ -34,4 +35,30 @@ model Room {
 
   roomTypeId String
   roomType   RoomType @relation(fields: [roomTypeId], references: [id])
+
+  bookings BookingRoom[]
+}
+
+model Booking {
+  id String @id @default(cuid())
+
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+
+  checkIn  DateTime
+  checkOut DateTime
+
+  rooms BookingRoom[]
+}
+
+model BookingRoom {
+  bookingId String
+  roomId    String
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  room    Room    @relation(fields: [roomId], references: [id])
+
+  @@id([bookingId, roomId])
 }
