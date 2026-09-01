@@ -12,19 +12,26 @@ datasource db {
   provider = "postgresql"
 }
 
-model Room {
-  id         String @id @default(cuid())
-  roomNumber String
-
-  roomTypeId String
-  roomType   RoomType @relation(fields: [roomTypeId], references: [id])
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
 }
 
 model RoomType {
-  id       String @id @default(cuid())
-  name     String
-  price    Int
-  capacity Int
+  id          String @id @default(cuid())
+  name        String @unique
+  price       Int
+  capacity    Int
+  description String
+  rooms       Room[]
+}
 
-  rooms Room[]
+model Room {
+  id         String     @id @default(cuid())
+  roomNumber String     @unique
+  status     RoomStatus
+
+  roomTypeId String
+  roomType   RoomType @relation(fields: [roomTypeId], references: [id])
 }
