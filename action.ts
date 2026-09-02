@@ -16,10 +16,14 @@ export const getAvailableRooms = async ({
       where: {
         status: "AVAILABLE",
       },
+      include: {
+        roomType: true,
+      },
     });
-    return availableRooms
+    console.log(availableRooms);
+    return availableRooms;
   } catch (error) {
     console.log("Error", error);
-    return []
+    return [];
   }
 };

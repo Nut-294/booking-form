@@ -20,15 +20,15 @@ export default async function RoomsList({
     guests,
     rooms,
   });
-  
-  if(availableRooms.length === 0){
-    return <div className="text-4xl">Room Not Found ...</div>
+
+  if (availableRooms.length === 0) {
+    return <div className="text-4xl">Room Not Found ...</div>;
   }
 
   return (
-    <div>
+    <div className="mt-8 grid grid-cols-3 gap-4">
       {availableRooms.map((room) => {
-        return <RoomCard key={room.id} />;
+        return <RoomCard key={room.id} {...room} />;
       })}
     </div>
   );
