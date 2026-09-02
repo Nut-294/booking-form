@@ -1,10 +1,10 @@
 import Form from "../form/Form";
 
 type SearchFormProps = {
-  checkIn: string;
-  checkOut: string;
-  guests: string;
-  rooms: string;
+  checkIn: Date;
+  checkOut: Date;
+  guests: number;
+  rooms: number;
 };
 export default function SearchForm({ params }: { params: SearchFormProps }) {
   console.log("params", params);

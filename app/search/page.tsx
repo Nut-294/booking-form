@@ -3,19 +3,20 @@ import SearchForm from "@/components/ui/search/SearchForm";
 
 type searchPageProps = {
   searchParams: Promise<{
-    checkIn: string;
-    checkOut: string;
-    guests: string;
-    rooms: string;
+    checkIn: Date
+    checkOut: Date
+    guests: number
+    rooms: number
   }>;
 };
 
 async function SearchPage({ searchParams }: searchPageProps) {
   const params = await searchParams;
+  // console.log("params",params)
   return (
     <>
       <SearchForm params={params}/>
-      <RoomsList />
+      <RoomsList params={params} />
     </>
   );
 }
