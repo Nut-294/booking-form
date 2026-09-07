@@ -47,7 +47,7 @@ export default function Form({ defaultValues }: FormProps) {
   }
 
   return (
-    <Card>
+    <Card className="bg-amber-100">
       <CardHeader>ค้นหาห้องพัก</CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>

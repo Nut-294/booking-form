@@ -2,6 +2,7 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "../card";
 import { Badge } from "../badge";
 import Link from "next/link";
 import { Button } from "../button";
+import createSearchQuery from "../global/SearchQuery";
 
 type RoomCardProps = {
   id: string;
@@ -13,6 +14,10 @@ type RoomCardProps = {
     capacity: number;
     description: string;
   };
+  checkIn: Date;
+  checkOut: Date;
+  guests: number;
+  rooms: number;
 };
 
 export default function RoomCard({
@@ -20,7 +25,18 @@ export default function RoomCard({
   roomNumber,
   status,
   roomType,
+  checkIn,
+  checkOut,
+  guests,
+  rooms,
 }: RoomCardProps) {
+  const query = createSearchQuery({
+    checkIn,
+    checkOut,
+    guests,
+    rooms,
+  });
+
   const statusVariant = {
     AVAILABLE: "bg-green-500",
     OCCUPIED: "bg-yellow-500",
@@ -41,7 +57,7 @@ export default function RoomCard({
       </CardContent>
 
       <div className="ml-4">
-        <Link href={`/rooms/${id}`}>
+        <Link href={`/rooms/${id}?${query}`}>
           <Button>View Details</Button>
         </Link>
         <Button className="ml-4">Select Room</Button>

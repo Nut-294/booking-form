@@ -28,7 +28,7 @@ export default async function RoomsList({
   return (
     <div className="mt-8 grid grid-cols-3 gap-4">
       {availableRooms.map((room) => {
-        return <RoomCard key={room.id} {...room} />;
+        return <RoomCard key={room.id} {...room} {...params}/>;
       })}
     </div>
   );
