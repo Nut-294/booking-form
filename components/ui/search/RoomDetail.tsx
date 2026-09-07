@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Badge } from "../badge";
 import { Button } from "../button";
 import { IoMdArrowBack } from "react-icons/io";
-import createSearchQuery from "../global/SearchQuery";
+import createSearchQuery from "../../../utils/SearchQuery";
 
 type RoomDetailProps = {
   id: string;

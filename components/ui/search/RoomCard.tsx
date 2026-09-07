@@ -2,7 +2,7 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "../card";
 import { Badge } from "../badge";
 import Link from "next/link";
 import { Button } from "../button";
-import createSearchQuery from "../global/SearchQuery";
+import createSearchQuery from "../../../utils/SearchQuery";
 
 type RoomCardProps = {
   id: string;

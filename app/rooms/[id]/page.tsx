@@ -6,8 +6,8 @@ type RoomDetailProps = {
 };
 
 type SearchParams = {
-  checkIn: string;
-  checkOut: string;
+  checkIn: Date;
+  checkOut: Date;
   guests: string;
   rooms: string;
 };
