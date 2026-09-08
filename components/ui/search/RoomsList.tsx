@@ -1,5 +1,5 @@
 import { getAvailableRooms } from "@/action";
-import RoomCard from "./RoomCard";
+import RoomSelection from "./RoomSelection";
 
 type RoomsListProps = {
   checkIn: Date;
@@ -26,10 +26,9 @@ export default async function RoomsList({
   }
 
   return (
-    <div className="mt-8 grid grid-cols-3 gap-4">
-      {availableRooms.map((room) => {
-        return <RoomCard key={room.id} {...room} {...params}/>;
-      })}
-    </div>
+    <>
+      <RoomSelection  rooms={availableRooms} params={params}/>
+    </>
+  
   );
 }

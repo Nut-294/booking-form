@@ -18,6 +18,8 @@ type RoomCardProps = {
   checkOut: Date;
   guests: number;
   rooms: number;
+  selected: boolean;
+  handleSelect: (id: string) => void;
 };
 
 export default function RoomCard({
@@ -29,6 +31,8 @@ export default function RoomCard({
   checkOut,
   guests,
   rooms,
+  selected,
+  handleSelect,
 }: RoomCardProps) {
   const query = createSearchQuery({
     checkIn,
@@ -58,9 +62,11 @@ export default function RoomCard({
 
       <div className="ml-4">
         <Link href={`/rooms/${id}?${query}`}>
-          <Button>View Details</Button>
+          <Button className="bg-orange-700 hover:bg-orange-600" >View Details</Button>
         </Link>
-        <Button className="ml-4">Select Room</Button>
+        <Button className={selected ? "bg-green-700 hover:bg-green-600":"bg-blue-700 hover:bg-blue-600"} onClick={() => handleSelect(id)}>
+          {selected ? "เลือกแล้ว" : "Select Room"}
+        </Button>
       </div>
     </Card>
   );
