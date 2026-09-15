@@ -2,6 +2,9 @@
 import { RoomWithType } from "@/utils/RoomType";
 import RoomCard from "./RoomCard";
 import { useState } from "react";
+import { Button } from "../button";
+import Link from "next/link";
+import createSearchQuery from "@/utils/SearchQuery";
 
 type RoomSelectionProp = {
   rooms: RoomWithType[];
@@ -16,6 +19,7 @@ type RoomSelectionProp = {
 function RoomSelection({ rooms, params }: RoomSelectionProp) {
   const [selectedRooms, setSelectRooms] = useState<string[]>([]);
 
+  //เลือกห้อง
   const handleSelect = (id: string) => {
     setSelectRooms((prev) => {
       // ถ้าห้องนี้ถูกเลือกอยู่แล้ว → ยกเลิกการเลือก
@@ -29,7 +33,6 @@ function RoomSelection({ rooms, params }: RoomSelectionProp) {
       return [...prev, id];
     });
   };
-  console.log("select", selectedRooms);
 
   //คำนวณจำนวนที่ห้องพักรองรับได้ -> จาก id ห้องที่เลือกแล้ว (selectedRooms)
   const totalRoomCapacity = selectedRooms.reduce((total, roomId) => {
@@ -40,11 +43,30 @@ function RoomSelection({ rooms, params }: RoomSelectionProp) {
     return totalCapacity;
   }, 0);
 
+  console.log("select", selectedRooms);
+
+  const query = createSearchQuery({
+    ...params,
+  });
+
+  const searchParams = new URLSearchParams(query);
+
+  selectedRooms.forEach((roomId) => {
+    searchParams.append("roomId", roomId);
+  });
+
+  const bookingUrl = `/booking?${searchParams.toString()}`;
+
   return (
     <div>
       <div className="flex justify-between items-center mx-20">
         <h5 className="text-2xl my-4">RoomSelect : {selectedRooms.length}</h5>
         <h5 className="text-2xl my-4">RoomCapacity : {totalRoomCapacity}</h5>
+        <Link href={bookingUrl}>
+          <Button className="text-2xl my-4 p-4 bg-gray-600 cursor-pointer">
+            Booking
+          </Button>
+        </Link>
       </div>
       <div className="grid grid-cols-3 gap-4">
         {rooms.map((room) => {

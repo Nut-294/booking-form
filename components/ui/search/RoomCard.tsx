@@ -62,9 +62,18 @@ export default function RoomCard({
 
       <div className="ml-4">
         <Link href={`/rooms/${id}?${query}`}>
-          <Button className="bg-orange-700 hover:bg-orange-600" >View Details</Button>
+          <Button className="bg-orange-700 hover:bg-orange-600 cursor-pointer">
+            View Details
+          </Button>
         </Link>
-        <Button className={selected ? "bg-green-700 hover:bg-green-600":"bg-blue-700 hover:bg-blue-600"} onClick={() => handleSelect(id)}>
+        <Button
+          className={
+            selected
+              ? "bg-green-700 hover:bg-green-600 cursor-pointer"
+              : "bg-blue-700 hover:bg-blue-600 cursor-pointer"
+          }
+          onClick={() => handleSelect(id)}
+        >
           {selected ? "เลือกแล้ว" : "Select Room"}
         </Button>
       </div>

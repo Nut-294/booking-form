@@ -1,3 +1,4 @@
+'use server'
 import { prisma } from "./lib/prisma";
 
 //หาห้องที่ว่าง
@@ -58,3 +59,8 @@ export const getRoomDetail = async (id: string) => {
     console.log("Error", error);
   }
 };
+
+//Booking
+export const bookingRoom = async()=>{
+  console.log("booking")
+}
