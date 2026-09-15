@@ -3,7 +3,7 @@ import { RoomWithType } from "@/utils/RoomType";
 import RoomCard from "./RoomCard";
 import { useState } from "react";
 import { Button } from "../button";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import createSearchQuery from "@/utils/SearchQuery";
 
 type RoomSelectionProp = {
@@ -18,6 +18,7 @@ type RoomSelectionProp = {
 
 function RoomSelection({ rooms, params }: RoomSelectionProp) {
   const [selectedRooms, setSelectRooms] = useState<string[]>([]);
+  const router = useRouter();
 
   //เลือกห้อง
   const handleSelect = (id: string) => {
@@ -57,16 +58,27 @@ function RoomSelection({ rooms, params }: RoomSelectionProp) {
 
   const bookingUrl = `/booking?${searchParams.toString()}`;
 
+  const canBooking =
+    selectedRooms.length <= params.rooms && totalRoomCapacity >= params.guests;
+
+  const handleBooking = () => {
+    if (!canBooking) return;
+    router.push(bookingUrl);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mx-20">
         <h5 className="text-2xl my-4">RoomSelect : {selectedRooms.length}</h5>
         <h5 className="text-2xl my-4">RoomCapacity : {totalRoomCapacity}</h5>
-        <Link href={bookingUrl}>
-          <Button className="text-2xl my-4 p-4 bg-gray-600 cursor-pointer">
-            Booking
-          </Button>
-        </Link>
+
+        <Button
+          className="text-2xl my-4 p-4 bg-gray-600 cursor-pointer"
+          onClick={handleBooking}
+          disabled={!canBooking}
+        >
+          Booking
+        </Button>
       </div>
       <div className="grid grid-cols-3 gap-4">
         {rooms.map((room) => {
