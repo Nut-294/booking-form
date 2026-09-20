@@ -1,5 +1,6 @@
 import RoomDetail from "@/components/ui/search/RoomDetail";
 import { getRoomDetail } from "@/action";
+import SectionTitle from "@/components/ui/global/SectionTitle";
 
 type RoomDetailProps = {
   id: string;
@@ -29,13 +30,16 @@ async function SingleRoom({
   }
 
   return (
-    <RoomDetail
-      {...roomDetail}
-      checkIn={checkIn}
-      checkOut={checkOut}
-      guests={Number(guests)}
-      rooms={Number(rooms)}
-    />
+    <>
+      <SectionTitle title="Room Detail" />
+      <RoomDetail
+        {...roomDetail}
+        checkIn={checkIn}
+        checkOut={checkOut}
+        guests={Number(guests)}
+        rooms={Number(rooms)}
+      />
+    </>
   );
 }
 
