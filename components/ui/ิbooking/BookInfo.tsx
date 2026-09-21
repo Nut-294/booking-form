@@ -20,7 +20,7 @@ function BookInfo({ checkIn, checkOut, guests, rooms }: BookInfoProps) {
         <p>วันที่เข้าพัก : {formatThaiDate(checkIn)}</p>
         <p>วันที่ออก : {formatThaiDate(checkOut)}</p>
         <p>จำนวนผู้เข้าพัก : {guests} คน</p>
-        <p>จำนวนห้องที่จอง :{rooms} ห้อง</p>
+        <p>จำนวนห้องที่จอง : {rooms} ห้อง</p>
       </CardContent>
     </Card>
   );

@@ -5,7 +5,7 @@ function Navbar() {
   return (
     <div className="p-8 mb-2  bg-amber-400">
       <Link
-        href="/search"
+        href="/"
         className="flex items-center gap-4 text-2xl justify-center"
       >
         <AiOutlineHome />
