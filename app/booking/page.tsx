@@ -16,7 +16,7 @@ type BookingPage = {
 
 async function BookingPage({ searchParams }: BookingPage) {
   const { checkIn, checkOut, guests, rooms, roomId } = await searchParams;
-  console.log("roomId = ", roomId);
+  // console.log("roomId = ", roomId);
   return (
     <div className="grid gap-y-2">
       <SectionTitle title="BookingPage" />
@@ -27,10 +27,8 @@ async function BookingPage({ searchParams }: BookingPage) {
         rooms={rooms}
       />
       <SelectedRooms roomId={roomId} />
-      <GuestForm />
-      {/*  ทางขวา */}
       <BookingSummary />
-      <p>Comfrim Booking</p>
+      <GuestForm />
     </div>
   );
 }
