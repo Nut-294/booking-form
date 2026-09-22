@@ -61,14 +61,9 @@ export const getRoomDetail = async (id: string) => {
 };
 
 //Booking
-type PrevState = {
-  success: boolean;
-  message: string;
-};
-
 export const createBooking = async (
   formDate: FormData,
-  prevState: PrevState,
+  prevState: any,
 ) => {
   console.log("booking");
 };

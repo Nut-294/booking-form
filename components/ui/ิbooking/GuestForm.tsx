@@ -1,17 +1,12 @@
-import { Button } from "../button";
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "../card";
 import FormInput from "./FormInput";
 import { useActionState } from "react";
 import { createBooking } from "@/action";
-import { toast } from "@/components/ui/toast"
-
-const initialState = {
-  success: false,
-  message: "",
-};
+import SubmitButton from "../button/SubmitButton";
 
 function GuestForm() {
-  const [state, formAction] = useActionState(createBooking, initialState);
+  const [message, formAction] = useActionState(createBooking, null);
   return (
     <Card>
       <CardHeader>
@@ -25,9 +20,7 @@ function GuestForm() {
           <FormInput name="lastname" type="text" label="นามสกุล" />
           <FormInput name="email" type="email" label="อีเมล" />
           <FormInput name="phone" type="tel" label="เบอร์โทร" />
-          <Button className="mt-4 bg-green-500 hover:bg-green-600 cursor-pointer">
-            Booking
-          </Button>
+          <SubmitButton btnStyle="mt-4 bg-green-500 hover:bg-green-600 cursor-pointer" />
         </form>
       </CardContent>
     </Card>
