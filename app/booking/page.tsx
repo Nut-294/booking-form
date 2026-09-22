@@ -28,7 +28,8 @@ async function BookingPage({ searchParams }: BookingPage) {
       />
       <SelectedRooms roomId={roomId} />
       <BookingSummary />
-      <GuestForm />
+      {/* checkIn checkout rooms */}
+      <GuestForm  checkIn={checkIn} checkOut={checkOut}/>
     </div>
   );
 }

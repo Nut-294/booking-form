@@ -61,9 +61,17 @@ export const getRoomDetail = async (id: string) => {
 };
 
 //Booking
-export const createBooking = async (
-  formDate: FormData,
-  prevState: any,
-) => {
-  console.log("booking");
+export const createBooking = async (prevState: any, formData: FormData) => {
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const email = formData.get("email") as string;
+  const phone = formData.get("phone") as string;
+  const checkIn = new Date(formData.get("checkIn") as string);
+  const checkOut = new Date(formData.get("checkOut") as string);
+  console.log("firstName", firstName);
+  console.log("lastName", lastName);
+  console.log("email", email);
+  console.log("phone", phone);
+  console.log("checkIn", checkIn);
+  console.log("checkOut", checkOut);
 };

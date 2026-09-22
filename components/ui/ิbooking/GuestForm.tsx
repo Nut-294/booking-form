@@ -5,7 +5,7 @@ import { useActionState } from "react";
 import { createBooking } from "@/action";
 import SubmitButton from "../button/SubmitButton";
 
-function GuestForm() {
+function GuestForm({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) {
   const [message, formAction] = useActionState(createBooking, null);
   return (
     <Card>
@@ -16,10 +16,12 @@ function GuestForm() {
       </CardHeader>
       <CardContent className="leading-6 px-8">
         <form action={formAction}>
-          <FormInput name="firstname" type="text" label="ชื่อจริง" />
-          <FormInput name="lastname" type="text" label="นามสกุล" />
+          <FormInput name="firstName" type="text" label="ชื่อจริง" />
+          <FormInput name="lastName" type="text" label="นามสกุล" />
           <FormInput name="email" type="email" label="อีเมล" />
           <FormInput name="phone" type="tel" label="เบอร์โทร" />
+          <input type="hidden" name="checkIn" value={checkIn.toString()} />
+          <input type="hidden" name="checkOut" value={checkOut.toString()} />
           <SubmitButton btnStyle="mt-4 bg-green-500 hover:bg-green-600 cursor-pointer" />
         </form>
       </CardContent>
