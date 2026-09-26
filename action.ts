@@ -74,4 +74,27 @@ export const createBooking = async (prevState: any, formData: FormData) => {
   console.log("phone", phone);
   console.log("checkIn", checkIn);
   console.log("checkOut", checkOut);
+
+  try {
+    await prisma.booking.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        phone,
+        checkIn,
+        checkOut,
+      },
+    });
+    return {
+      success: true,
+      message: "Booking success",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Something was wrong when booking",
+    };
+  }
 };

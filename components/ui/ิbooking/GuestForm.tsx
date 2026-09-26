@@ -1,12 +1,30 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "../card";
 import FormInput from "./FormInput";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { createBooking } from "@/action";
 import SubmitButton from "../button/SubmitButton";
+import { toast } from "sonner";
+
+const initialState = {
+  success: false,
+  message: "",
+};
 
 function GuestForm({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) {
-  const [message, formAction] = useActionState(createBooking, null);
+  const [state, formAction] = useActionState(createBooking, initialState);
+
+  useEffect(() => {
+    if (state.message === "") {
+      return;
+    }
+    if (state.success) {
+      toast.success(state.message);
+    } else {
+      toast.error(state.message);
+    }
+  }, [state]);
+
   return (
     <Card>
       <CardHeader>
