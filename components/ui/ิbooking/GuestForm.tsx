@@ -15,7 +15,7 @@ function GuestForm({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) {
   const [state, formAction] = useActionState(createBooking, initialState);
 
   useEffect(() => {
-    if (state.message === "") {
+    if (!state.message) {
       return;
     }
     if (state.success) {
@@ -34,12 +34,12 @@ function GuestForm({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) {
       </CardHeader>
       <CardContent className="leading-6 px-8">
         <form action={formAction}>
-          <FormInput name="firstName" type="text" label="ชื่อจริง" />
-          <FormInput name="lastName" type="text" label="นามสกุล" />
+          <FormInput name="firstname" type="text" label="ชื่อจริง" />
+          <FormInput name="lastname" type="text" label="นามสกุล" />
           <FormInput name="email" type="email" label="อีเมล" />
           <FormInput name="phone" type="tel" label="เบอร์โทร" />
-          <input type="hidden" name="checkIn" value={checkIn.toString()} />
-          <input type="hidden" name="checkOut" value={checkOut.toString()} />
+          <input type="hidden" name="checkIn" value={checkIn.toISOString()} />
+          <input type="hidden" name="checkOut" value={checkOut.toISOString()} />
           <SubmitButton btnStyle="mt-4 bg-green-500 hover:bg-green-600 cursor-pointer" />
         </form>
       </CardContent>

@@ -1,5 +1,7 @@
 "use server";
 import { prisma } from "./lib/prisma";
+import { bookingSchema } from "./schemas/bookingSchema";
+import { validateWithZodSchema } from "./schemas/validateWithZodSchema";
 
 //หาห้องที่ว่าง
 export const getAvailableRooms = async ({
@@ -62,24 +64,16 @@ export const getRoomDetail = async (id: string) => {
 
 //Booking
 export const createBooking = async (prevState: any, formData: FormData) => {
-  const firstName = formData.get("firstName") as string;
-  const lastName = formData.get("lastName") as string;
-  const email = formData.get("email") as string;
-  const phone = formData.get("phone") as string;
-  const checkIn = new Date(formData.get("checkIn") as string);
-  const checkOut = new Date(formData.get("checkOut") as string);
-  console.log("firstName", firstName);
-  console.log("lastName", lastName);
-  console.log("email", email);
-  console.log("phone", phone);
-  console.log("checkIn", checkIn);
-  console.log("checkOut", checkOut);
+  const rawData = Object.fromEntries(formData);
+  const validateWithZod = validateWithZodSchema(bookingSchema, rawData);
+  const { firstname, lastname, email, phone, checkIn, checkOut } =
+    validateWithZod;
 
   try {
     await prisma.booking.create({
       data: {
-        firstName,
-        lastName,
+        firstName: firstname,
+        lastName: lastname,
         email,
         phone,
         checkIn,
@@ -88,13 +82,13 @@ export const createBooking = async (prevState: any, formData: FormData) => {
     });
     return {
       success: true,
-      message: "Booking success",
+      message: "Booking created successfully",
     };
   } catch (error) {
-    console.log(error);
+    console.log(error)
     return {
       success: false,
-      message: "Something was wrong when booking",
+      message: "Failed to create booking",
     };
   }
 };

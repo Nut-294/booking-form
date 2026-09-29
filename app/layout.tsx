@@ -32,7 +32,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col m-auto max-w-5xl">
         <Navbar />
         {children}
-        <Toaster position="top-right" duration={3000} />
+        <Toaster position="top-right" />
       </body>
     </html>
   );

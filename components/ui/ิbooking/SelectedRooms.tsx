@@ -10,8 +10,8 @@ function SelectedRooms({ roomId }: { roomId: string | string[] }) {
           รายละเอียดห้องพัก
         </CardTitle>
       </CardHeader>
-      {roomIds.map((id) => {
-        return <RoomSelectedCard key={id} id={id} />;
+      {roomIds.map((id,index) => {
+        return <RoomSelectedCard key={index} id={id} />;
       })}
     </Card>
   );
