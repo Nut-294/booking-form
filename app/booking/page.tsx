@@ -1,8 +1,7 @@
-import BookInfo from "@/components/ui/ิbooking/BookInfo";
-import BookingSummary from "@/components/ui/ิbooking/BookingSummary";
-import GuestForm from "@/components/ui/ิbooking/GuestForm";
-import SelectedRooms from "@/components/ui/ิbooking/SelectedRooms";
+import BookInfo from "@/components/ui/booking/BookInfo";
+import SelectedRooms from "@/components/ui/booking/SelectedRooms";
 import SectionTitle from "@/components/ui/global/SectionTitle";
+import BookingForm from "@/components/ui/booking/BookingForm";
 
 type BookingPage = {
   searchParams: Promise<{
@@ -27,9 +26,7 @@ async function BookingPage({ searchParams }: BookingPage) {
         rooms={rooms}
       />
       <SelectedRooms roomId={roomId} />
-      <BookingSummary />
-      {/* checkIn checkout rooms */}
-      <GuestForm checkIn={new Date(checkIn)} checkOut={new Date(checkOut)} />
+      <BookingForm checkIn={new Date(checkIn)} checkOut={new Date(checkOut)} />
     </div>
   );
 }
