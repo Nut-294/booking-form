@@ -2,7 +2,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../card";
 import FormInput from "./FormInput";
 
-function GuestForm({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) {
+function GuestForm({
+  checkIn,
+  checkOut,
+}: {
+  checkIn: string;
+  checkOut: string;
+}) {
   return (
     <Card>
       <CardHeader>
@@ -11,12 +17,32 @@ function GuestForm({ checkIn, checkOut }: { checkIn: Date; checkOut: Date }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="leading-6 px-8">
-        <FormInput name="firstname" type="text" label="ชื่อจริง" />
-        <FormInput name="lastname" type="text" label="นามสกุล" />
-        <FormInput name="email" type="email" label="อีเมล" />
-        <FormInput name="phone" type="tel" label="เบอร์โทร" />
-        <input type="hidden" name="checkIn" value={checkIn.toISOString()} />
-        <input type="hidden" name="checkOut" value={checkOut.toISOString()} />
+        <FormInput
+          name="firstname"
+          type="text"
+          label="ชื่อจริง"
+          placeholder="กรอกชื่อจริงผู้จอง"
+        />
+        <FormInput
+          name="lastname"
+          type="text"
+          label="นามสกุล"
+          placeholder="กรอกนามสกุลผู้จอง"
+        />
+        <FormInput
+          name="email"
+          type="email"
+          label="อีเมล"
+          placeholder="example@email.com"
+        />
+        <FormInput
+          name="phone"
+          type="tel"
+          label="เบอร์โทร"
+          placeholder="08x-xxx-xxxx"
+        />
+        <input type="hidden" name="checkIn" value={checkIn} />
+        <input type="hidden" name="checkOut" value={checkOut} />
       </CardContent>
     </Card>
   );
