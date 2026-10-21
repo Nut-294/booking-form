@@ -85,10 +85,36 @@ export const createBooking = async (prevState: any, formData: FormData) => {
       message: "Booking created successfully",
     };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
       success: false,
       message: "Failed to create booking",
     };
+  }
+};
+
+export const getPriceRoom = async (id: string): Promise<number> => {
+  try {
+    const price = await prisma.room.findFirst({
+      where: {
+        id: id,
+      },
+      include: {
+        roomType: {
+          select: {
+            price: true,
+          },
+        },
+      },
+    });
+
+    if (price === null) {
+      throw new Error("Room not found");
+    }
+
+    return price.roomType.price;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };

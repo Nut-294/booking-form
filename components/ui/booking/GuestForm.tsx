@@ -30,13 +30,13 @@ function GuestForm({
       toast.error(state.message);
     }
   }, [state]);
-  console.log(state)
+
   return (
     <form action={formAction}>
       <Card>
         <CardHeader>
           <CardTitle className="underline decoration-2 text-xl">
-            รายละเอียดผู้จอง
+            Guest Information
           </CardTitle>
         </CardHeader>
         <CardContent className="leading-6 px-8">
@@ -67,7 +67,12 @@ function GuestForm({
           <input type="hidden" name="checkIn" value={checkIn} />
           <input type="hidden" name="checkOut" value={checkOut} />
         </CardContent>
-        <Button type="submit" className="cursor-pointer bg-green-400 px-4">Booking</Button>
+        <Button
+          type="submit"
+          className="cursor-pointer bg-green-400 mx-auto mx-8"
+        >
+          Booking
+        </Button>
       </Card>
     </form>
   );
