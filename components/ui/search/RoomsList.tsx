@@ -20,15 +20,14 @@ export default async function RoomsList({
     guests,
     rooms,
   });
-console.log("availableRooms",availableRooms)
+
   if (availableRooms.length === 0) {
     return <div className="text-4xl">Room Not Found ...</div>;
   }
 
   return (
     <>
-      <RoomSelection  rooms={availableRooms} params={params}/>
+      <RoomSelection rooms={availableRooms} params={params} />
     </>
-  
   );
 }

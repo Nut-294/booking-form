@@ -18,6 +18,19 @@ enum RoomStatus {
   MAINTENANCE
 }
 
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
 model RoomType {
   id String @id @default(cuid())
 
@@ -31,10 +44,10 @@ model RoomType {
 model Room {
   id         String     @id @default(cuid())
   roomNumber String     @unique
-  status     RoomStatus
+  status     RoomStatus @default(AVAILABLE)
 
   roomTypeId String
-  roomType   RoomType @relation(fields: [roomTypeId], references: [id])
+  roomType   RoomType @relation(fields: [roomTypeId], references: [id], onDelete: Restrict)
 
   bookings BookingRoom[]
 }
@@ -47,18 +60,47 @@ model Booking {
   email     String
   phone     String
 
-  checkIn  DateTime
-  checkOut DateTime
+  checkIn    DateTime
+  checkOut   DateTime
+  totalPrice Int
+  status     BookingStatus @default(PENDING)
 
-  rooms BookingRoom[]
+  rooms    BookingRoom[]
+  payments Payment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([checkIn, checkOut])
 }
 
 model BookingRoom {
   bookingId String
   roomId    String
 
-  booking Booking @relation(fields: [bookingId], references: [id])
-  room    Room    @relation(fields: [roomId], references: [id])
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Restrict)
+  room    Room    @relation(fields: [roomId], references: [id], onDelete: Restrict)
 
   @@id([bookingId, roomId])
+  @@index([roomId])
+}
+
+model Payment {
+  id String @id @default(cuid())
+
+  bookingId String
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Restrict)
+
+  amount                Int
+  currency              String        @default("thb")
+  status                PaymentStatus @default(PENDING)
+  stripeSessionId       String?       @unique
+  stripePaymentIntentId String?       @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([bookingId, status])
 }

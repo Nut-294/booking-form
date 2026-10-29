@@ -2,7 +2,7 @@ import { formatThaiDate } from "@/utils/formatThaiDate";
 import { Card, CardContent, CardHeader, CardTitle } from "../card";
 import { Separator } from "../separator";
 import { NightsCal } from "@/utils/NightsCal";
-import { getPriceRoom } from "@/action";
+import { roomTotalPrice } from "@/action";
 import RoomList from "./RoomList";
 
 async function BookingSummary({
@@ -18,13 +18,8 @@ async function BookingSummary({
 
   const nights = NightsCal(checkIn, checkOut);
 
-  // ดึงราคาของห้องทั้งหมด
-  const prices = await Promise.all(roomIds.map((id) => getPriceRoom(id)));
-  // console.log("prices", prices);
+  const totalPrice = await roomTotalPrice(roomIds,checkIn,checkOut) 
 
-  // คำนวณราคารวมทุกห้อง
-  const totalPrice = prices.reduce((total, price) => total + price * nights, 0);
-  // console.log("totalPrice", totalPrice);
   return (
     <Card>
       <CardHeader>

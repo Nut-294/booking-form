@@ -15,9 +15,11 @@ const initialState = {
 function GuestForm({
   checkIn,
   checkOut,
+  roomIds,
 }: {
   checkIn: string;
   checkOut: string;
+  roomIds: string[];
 }) {
   const [state, formAction] = useActionState(createBooking, initialState);
   useEffect(() => {
@@ -41,13 +43,13 @@ function GuestForm({
         </CardHeader>
         <CardContent className="leading-6 px-8">
           <FormInput
-            name="firstname"
+            name="firstName"
             type="text"
             label="ชื่อจริง"
             placeholder="กรอกชื่อจริงผู้จอง"
           />
           <FormInput
-            name="lastname"
+            name="lastName"
             type="text"
             label="นามสกุล"
             placeholder="กรอกนามสกุลผู้จอง"
@@ -66,11 +68,9 @@ function GuestForm({
           />
           <input type="hidden" name="checkIn" value={checkIn} />
           <input type="hidden" name="checkOut" value={checkOut} />
+          <input type="hidden" name="roomIds" value={roomIds} />
         </CardContent>
-        <Button
-          type="submit"
-          className="cursor-pointer bg-green-400 mx-auto mx-8"
-        >
+        <Button type="submit" className="cursor-pointer bg-green-400 mx-auto">
           Booking
         </Button>
       </Card>

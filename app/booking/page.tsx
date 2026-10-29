@@ -10,12 +10,13 @@ type BookingPage = {
     checkOut: string;
     guests: number;
     rooms: number;
-    roomId: string;
+    roomId: string | string[];
   }>;
 };
 
 async function BookingPage({ searchParams }: BookingPage) {
   const { checkIn, checkOut, guests, rooms, roomId } = await searchParams;
+  const roomIds = Array.isArray(roomId) ? roomId : [roomId];
   const checkInDate = new Date(checkIn);
   const checkOutDate = new Date(checkOut);
   return (
@@ -27,7 +28,7 @@ async function BookingPage({ searchParams }: BookingPage) {
         {NightsCal(checkInDate, checkOutDate)} คืน
       </p>
       <div className="grid grid-cols-2 gap-5">
-        <GuestForm checkIn={checkIn} checkOut={checkOut} />
+        <GuestForm checkIn={checkIn} checkOut={checkOut} roomIds={roomIds} />
         <BookingSummary
           roomId={roomId}
           checkIn={checkInDate}

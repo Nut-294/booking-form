@@ -12,7 +12,6 @@ type searchPageProps = {
 
 async function SearchPage({ searchParams }: searchPageProps) {
   const params = await searchParams;
-  // console.log("params",params)
   return (
     <>
       <SearchForm params={params}/>
