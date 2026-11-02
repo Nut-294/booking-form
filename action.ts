@@ -1,4 +1,5 @@
 "use server";
+import { redirect } from "next/navigation";
 import { prisma } from "./lib/prisma";
 import { bookingSchema } from "./schemas/bookingSchema";
 import { validateWithZodSchema } from "./schemas/validateWithZodSchema";
@@ -63,8 +64,7 @@ export const getAvailableRooms = async ({
 
 //ดู Detail
 export const getRoomDetail = async (id: string) => {
-  try {
-    const room = await prisma.room.findFirst({
+    const room = await prisma.room.findUnique({
       where: {
         id: id,
       },
@@ -72,11 +72,9 @@ export const getRoomDetail = async (id: string) => {
         roomType: true,
       },
     });
+    if(!room) redirect("/rooms")
     return room;
-  } catch (error) {
-    console.log("Error", error);
-  }
-};
+}
 
 //ราคาห้อง
 export const roomTotalPrice = async (
