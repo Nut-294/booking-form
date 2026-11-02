@@ -4,6 +4,12 @@ import { bookingSchema } from "./schemas/bookingSchema";
 import { validateWithZodSchema } from "./schemas/validateWithZodSchema";
 import { NightsCal } from "./utils/NightsCal";
 
+export const checkDate = async (checkIn: Date, checkOut: Date) => {
+  if (checkIn >= checkOut) {
+    throw new Error("วันออกต้องอยู่หลังวันเข้าพัก");
+  }
+};
+
 //หาห้องที่ว่าง
 export const getAvailableRooms = async ({
   checkIn,
@@ -124,12 +130,7 @@ export const createBooking = async (prevState: any, formData: FormData) => {
 
   try {
     //เช็ควันที่
-    if (checkIn >= checkOut) {
-      return {
-        success: false,
-        message: "วันออกต้องอยู่หลังวันเข้าพัก",
-      };
-    }
+    checkDate(checkIn, checkOut);
 
     //เช็คว่าห้องมีอยุ่จริงไหม
     const rooms = await prisma.room.findMany({
