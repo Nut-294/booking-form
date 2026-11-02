@@ -4,10 +4,19 @@ import { bookingSchema } from "./schemas/bookingSchema";
 import { validateWithZodSchema } from "./schemas/validateWithZodSchema";
 import { NightsCal } from "./utils/NightsCal";
 
-export const checkDate = async (checkIn: Date, checkOut: Date) => {
+//เช็ควันที่
+const checkDate = async (checkIn: Date, checkOut: Date) => {
   if (checkIn >= checkOut) {
     throw new Error("วันออกต้องอยู่หลังวันเข้าพัก");
   }
+};
+
+//render Error
+const renderError = (error: unknown): { message: string } => {
+  console.log(error);
+  return {
+    message: error instanceof Error ? error.message : "an error occurred",
+  };
 };
 
 //หาห้องที่ว่าง
